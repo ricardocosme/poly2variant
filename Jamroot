@@ -1,0 +1,28 @@
+import os ;
+
+local boost_path = [ os.environ BOOST_PATH ] ;
+if ! $(boost_path)
+{
+    boost_path = "/Users/rcosme/install/boost-1.60.0" ;
+}
+
+project poly2visitor
+  : requirements
+    <cxxflags>-std=c++11
+    <include>include
+    <include>$(boost_path)/include
+    <include>/Users/rcosme/build/variant/include
+  : default-build
+    <optimization>speed
+    <variant>release
+    <warnings>all
+  ;
+
+exe simple
+  : demo/simple.cpp
+  ;
+explicit simple ;
+
+install stage
+  : simple
+  ;
