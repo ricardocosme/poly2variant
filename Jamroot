@@ -6,12 +6,18 @@ if ! $(boost_path)
     boost_path = "/Users/rcosme/install/boost-1.60.0" ;
 }
 
+local poly_visitor_path = [ os.environ POLY_VISITOR_PATH ] ;
+if ! $(poly_visitor_path)
+{
+    poly_visitor_path = "../poly_visitor" ;
+}
+
 project poly2visitor
   : requirements
     <cxxflags>-std=c++11
     <include>include
     <include>$(boost_path)/include
-    <include>/Users/rcosme/build/variant/include
+    <include>$(poly_visitor_path)/include
   : default-build
     <optimization>speed
     <variant>release
@@ -23,6 +29,12 @@ exe simple
   ;
 explicit simple ;
 
+exe benchmark
+  : test/benchmark.cpp
+  ;
+explicit benchmark ;  
+
 install stage
   : simple
+    benchmark
   ;
